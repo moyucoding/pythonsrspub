@@ -1,7 +1,7 @@
 # Python WebRTC Publisher
 This is a Python program that streams a webcam to SRS via WebRTC.
 
-![image](https://github.com/moyucoding/pythonsrspub/blob/master/images/sample.png)
+![image](https://github.com/moyucoding/pythonsrspub/blob/main/images/sample.png)
 
 To work with SRS, see [SRS](https://github.com/ossrs/srs) and deploy server. Then install python packages:
 
