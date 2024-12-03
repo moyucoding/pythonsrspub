@@ -16,7 +16,6 @@ class CustomVideoStreamTrack(VideoStreamTrack):
 
     async def recv(self):
         self.frame_count += 1
-        print(self.frame_count)
         ret, frame = self.cap.read()
         if not ret:
             print("Failed to read frame from camera")
@@ -38,9 +37,8 @@ class RtcPublisher:
         else:
             self.api = f"https://{config['serverip']}:{config['port']}/rtc/v1/publish/"
 
-        self.streamurl = f"webrtc://{config['serverip']}/{config['app']}/{config['stream']}"
-        
-        self.camera = '/dev/video0'
+        self.streamurl = f"webrtc://{config['serverip']}:{config['port']}/{config['app']}/{config['stream']}"
+        self.camera = config['camera']
 
     async def start(self):
         self.pc = RTCPeerConnection()
@@ -76,6 +74,7 @@ class RtcPublisher:
             await self.pc.setLocalDescription(offer)
             
             # uri = 'http://localhost:1985/rtc/v1/publish/'
+            # uri = 'https://127.0.0.1:1990/rtc/v1/publish/'
             headers = {
                 "Content-Type": "application/json"
             }
@@ -86,7 +85,6 @@ class RtcPublisher:
                 'streamurl': self.streamurl,
                 'tid': str(int(time.time() * random.random() * 100))[:7]
             }
-            print(data['tid'])
             answer = ''
             async with ClientSession() as session:
                 async with session.post(self.api, headers=headers, data=json.dumps(data)) as response:

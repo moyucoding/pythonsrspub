@@ -1,5 +1,5 @@
-# Python WebRTC Publisher
-This is a Python program that streams a webcam to SRS via WebRTC.
+# Python SRS Publisher
+This is a Python program that streams a webcam to SRS. Achieved ~300ms latency via webRTC and ~100ms via rtmp.
 
 ![image](https://github.com/moyucoding/pythonsrspub/blob/main/images/sample.png)
 
@@ -20,5 +20,6 @@ config = {
         'stream':'livestream' # Stream name
     }
 ```
+To publish via rtc, run ```python rtcpublisher.py```. To publish via rtmp, run ```python rtmp publisher.py```.
 
 
