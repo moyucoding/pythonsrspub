@@ -1,7 +1,7 @@
 # Python SRS Publisher
 This is a Python program that streams a webcam to SRS. Supporting RTMP, WebRTC, and WHIP.
 
-![image](https://github.com/moyucoding/pythonsrspub/blob/main/images/rtmp.png)
+![image](https://github.com/moyucoding/pythonsrspub/blob/main/images/rtmp.jpg)
 
 To work with SRS, see [SRS](https://github.com/ossrs/srs) and deploy server. Then install python packages:
 
