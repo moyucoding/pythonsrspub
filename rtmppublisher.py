@@ -10,7 +10,7 @@ if __name__ == '__main__':
         'camera':'/dev/video0',
         'serverip':'localhost',
         'app':'live',
-        'stream':'livestream',
+        'stream':'rtmp',
         'width': 640,
         'height': 480
     }
