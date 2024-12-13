@@ -32,19 +32,35 @@ python rtcpublisher.py
 
 ### Publish via WHIP
 Edit configs in whippublisher.py, for streaming ```https://127.0.0.1:1990/rtc/v1/whip/?app=live&stream=whip``` for example:
+* Running script on Ubuntu and publish to local server
 
 ```python
 config = {
         'camera': '/dev/video0', # Camera path
-        'serverip':'127.0.0.1', # Server IP address
-        'port':1990, # Server HTTP API port
+        'serverip':'localhost', # Server IP address
+        'port':1985, # Server HTTP API port
         'app': 'live', # Application name
-        'stream':'whip' # Stream name
+        'stream':'whip', # Stream name
         'sslcheck': False, # For self-signed SSL, set to False
         'width': 640, # Stream size, use camera default if 0
         'height': 480
     }
 ```
+
+* Running script on MacOS or Windows and publish to remtote server
+```python
+config = {
+        'camera': 0,
+        'serverip':'127.0.0.1',
+        'port':1990,
+        'app': 'live',
+        'stream':'whip',
+        'sslcheck': False,
+        'width': 640,
+        'height': 480
+    }
+```
+
 Then run the script.
 ```bash
 python whippublisher.py

@@ -1,35 +1,12 @@
-from aiohttp import ClientSession, TCPConnector
-from aiortc import RTCPeerConnection, RTCSessionDescription, VideoStreamTrack
 import asyncio
-from av import VideoFrame
-import cv2
-import fractions
 import json
 import random
-import time 
+import time
 
-class CustomVideoStreamTrack(VideoStreamTrack):
-    def __init__(self, camera_path, width=0, height=0):
-        super().__init__()
-        self.cap = cv2.VideoCapture(camera_path)
-        self.frame_count = 0
-        self.width = width
-        self.height = height
+from aiohttp import ClientSession, TCPConnector
+from aiortc import RTCPeerConnection, RTCSessionDescription
 
-    async def recv(self):
-        self.frame_count += 1
-        ret, frame = self.cap.read()
-        if not ret:
-            print("Failed to read frame from camera")
-            return None
-        if self.width > 0 and self.height > 0:
-            frame = cv2.resize(frame, (self.width, self.height))
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        video_frame = VideoFrame.from_ndarray(frame, format="rgb24")
-        video_frame.pts = 104
-        video_frame.time_base = fractions.Fraction(1, 30)
-
-        return video_frame
+from customstreamtrack import CustomVideoStreamTrack
 
 class RtcPublisher:
     def __init__(self, config):
@@ -48,28 +25,15 @@ class RtcPublisher:
     async def start(self):
         self.pc = RTCPeerConnection()
         try:
-            @self.pc.on('icecandidate')
-            def on_icecandidate(candidate):
-                print(f'RTC: onIceCandidate: {candidate} ')
-
             @self.pc.on('iceconnectionstatechange')
             async def on_iceconnectionstatechange():
                 print(f'RTC: onIceConnectionChanged: {self.pc.iceConnectionState} ')
-                
-            @self.pc.on("track")
-            async def on_track(track):
-                print(f'RTC: onTrack: id: {track.id}, kind: {track.kind}')
 
             @self.pc.on("connectionstatechange")
             async def on_connectionstatechange():
                 print(f"Connection state is {self.pc.connectionState}")
                 if self.pc.connectionState == "connected":
                     print("WebRTC connection established successfully")
-
-            @self.pc.on('icegetheringstatechange')
-            async def on_icegetheringstatechange():
-                print(f'RTC: onIceGatheringChanged: {self.pc.iceGatheringState} ')
-            
 
             self.setup_media()
 
